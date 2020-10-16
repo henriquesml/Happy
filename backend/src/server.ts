@@ -33,7 +33,7 @@ app.post("/orphanages", async (req, res) => {
 
   await orphanageRepository.save(orphanage);
 
-  return res.status(200).json(orphanage)
+  return res.status(201).json(orphanage)
 })
 
 app.listen(3333);
