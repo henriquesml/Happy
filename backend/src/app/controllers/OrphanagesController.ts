@@ -2,7 +2,22 @@ import { Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { Orphanage } from "../models";
 
-class OrphanagesController {
+export default {
+  async index(req: Request, res: Response) {
+    const orphanageRepository = getRepository(Orphanage)
+    const orphanages = await orphanageRepository.find();
+
+    return res.status(200).json(orphanages)
+  },
+
+  async show(req: Request, res: Response) {
+    const { id } = req.params;
+    const orphanageRepository = getRepository(Orphanage)
+    const orphanage = await orphanageRepository.findOneOrFail(id);
+
+    return res.status(200).json(orphanage)
+  },
+
   async create(req: Request, res: Response) {
     const orphanageRepository = getRepository(Orphanage)
     const {
@@ -27,8 +42,6 @@ class OrphanagesController {
   
     await orphanageRepository.save(orphanage);
   
-    return res.status(201).json(orphanage)
+    return res.status(201).json(orphanage);
   }
 }
-
-export default new OrphanagesController
